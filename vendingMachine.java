@@ -2,7 +2,7 @@
 // Team 8
 // Software Engineering
 // Last modified: 2/21/2018
-// Summary: Basic non-functional UI for vending machine program
+// Summary: Basic non-functional UI for vending machine program.
 
 package vendingMachine;
 
