@@ -22,7 +22,7 @@ public class vendingMachine
 	   public static void main(String argv[])
 	   {
 		 int result, portNumber=0;
-		 double price = 0.0, cashTendered = 0.0, change = 0.0; // money variables
+		 double price = 0.0, cashTendered = 0.0, change = 0.0; // money transaction variables
 	     String serverResponse, ipAddress, portString;
 	     String jpgPath = null;
 
@@ -107,12 +107,13 @@ public class vendingMachine
 	        	}
 	        	else
 	        	{
-		    	   outToServer.writeBytes("Items bought>" + field1.getText() + '\n');
+		    	   outToServer.writeBytes("Items bought>" + field1.getText() + '\n'); // items bought
 		    	   serverResponse = inFromServer.readLine();
-		    	   outToServer.writeBytes("Money received>" + field3.getText() + '\n');
+		    	   outToServer.writeBytes(field2.getText() + '\n'); //money received
 		    	   serverResponse = inFromServer.readLine();
 	        	}
 	    	   
+	        	
 	    	   Thread t = new Thread(new Runnable()
 	    	   {
 	    	        public void run()
@@ -145,6 +146,12 @@ public class vendingMachine
 	    		                             "Vending machine Message",
        			                             JOptionPane.INFORMATION_MESSAGE,
        			                             icon2);
+	    	   
+	    	   //Reset queue and money display
+	    	   field1.setText("");
+	    	   field2.setText("");
+	    	   field3.setText("");
+	    	 
 	    	 
 	    	   outToServer.writeBytes("quit" + '\n');
 	    	   Thread.sleep(5000);

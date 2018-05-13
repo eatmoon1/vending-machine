@@ -17,6 +17,8 @@ import java.util.Hashtable;
 import java.util.Vector;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 
 public class sockServer implements Runnable
 {
@@ -39,6 +41,9 @@ public class sockServer implements Runnable
 	   static int max_connections = 5;
 	   static int numOfTransactions = 0; 
 	   static double earnings = 0; // sum of all earnings from transactions
+	   
+	   
+	   static double earned; // money received in last transaction
 
 	   sockServer(Socket csocket, String ip)
 	   {
@@ -200,6 +205,21 @@ public class sockServer implements Runnable
 	       	{
 	              clientString = rstream.readLine();
 	              
+	              DecimalFormat decimalFormat = new DecimalFormat("#");
+	              
+	               // Displayed transaction details and add earnings from last transaction to total earnings.
+	               try {
+		                 earned = decimalFormat.parse(clientString).doubleValue();
+		                 earnings += earned;
+		                 vmServer.textArea.append("$" + earned + " received." + newline);
+		                 vmServer.textArea.append("Total earning: $" + earnings + newline);
+		              } catch (ParseException e) {
+		            	  vmServer.textArea.append(clientString + " purchased." + newline);
+		              }
+	     	       vmServer.textArea.setCaretPosition(vmServer.textArea.getDocument().getLength());
+	     	       vmServer.textArea.repaint();
+	              
+	              /* old transaction log
 	              // update the status text area to show progress of program
 	   	           vmServer.textArea.append("RECV : " + clientString + newline);
 	     	       vmServer.textArea.setCaretPosition(vmServer.textArea.getDocument().getLength());
@@ -208,6 +228,7 @@ public class sockServer implements Runnable
 	     	       vmServer.textArea.append("RLEN : " + clientString.length() + newline);
 	     	       vmServer.textArea.setCaretPosition(vmServer.textArea.getDocument().getLength());
 	     	       vmServer.textArea.repaint();
+	     	       */
 	              
 	              if (clientString.length() > 128)
 	              {
